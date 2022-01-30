@@ -68,7 +68,7 @@ Fonctione !
 #TODO 
 # Donner a sarasvati une @ip dans le vlan 2 et pinguer aussi !
 
-
+https://medium.com/@kbidarkar/configuring-bridges-and-vlans-using-nmcli-8cb79f45d3a6
 
 
 
