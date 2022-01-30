@@ -1,0 +1,76 @@
+
+
+# Objectif
+
+monitorer sans interrompre un trafic avec des vlans taggés
+ajouter une interface a son PC dans le vlan de son choix
+
+
+
+
+# conf du vieux swtich 3com 
+
+vlan 1 :
+- 192.168.100.77
+- ne fonctionne que quand kali_tower a l'interface usb-ethernet de branchée
+
+vlan 2 :
+- untag sur les ports 2 et 11
+- tag sur le port 12
+- pas d'interface dans le vlan 2
+
+
+
+# Conf du swtich4200
+
+
+# perte de conf a chaque demarrage se brancher dessus en serie avec
+minicom conf3com
+
+system-view
+
+interface Ethernet 1/0/12
+port link-type trunk
+port trunk permit vlan 2
+quit
+
+vlan 2
+port Ethernet 1/0/2
+port Ethernet 1/0/11
+quit
+
+
+# conf du raspberry PI blanc 	
+- 192.168.253.10 sur le port 11 du switch 4200
+
+# conf du Kali_tower 
+- 192.168.253.11 sur le port 11 du vieux 3com (vlan 2)
+- 192.168.100.33 sur le vieux 3com (vlan 1) quand 'linterface usb-ethernet est branchée
+
+
+
+#TODO 
+# Mettre sarasvati en man ip the middle et monitorer le trafic sans l'interompre
+
+- monter un bridge avec network manager et nmcli
+
+- passer les interfaces en mode promiscus ? (a priori pas utile)
+
+- desactiver le filtrage iptables pour le bridge : 
+https://superuser.com/questions/1211852/why-linux-bridge-doesnt-work
+echo 0 > /proc/sys/net/bridge/bridge-nf-call-iptables
+
+# à cette étape le trafic ipv4 passe mais tant que l'arp est memorisée chez les clients
+# Le trafic broadcast ne passe pas donc pb d'ARP
+
+# Le boracast ne semble passer que dans un sens eth1 -> eth0
+
+
+- autre ?
+sysctl -w net.ipv4.conf.bridge0.bc_forwarding=1
+
+
+
+
+#TODO 
+# Donner a sarasvati une @ip dans le vlan 2 et pinguer aussi !
