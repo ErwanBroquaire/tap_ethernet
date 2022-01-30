@@ -49,28 +49,29 @@ quit
 
 
 
-#TODO 
 # Mettre sarasvati en man ip the middle et monitorer le trafic sans l'interompre
 
 - monter un bridge avec network manager et nmcli
 
-- passer les interfaces en mode promiscus ? (a priori pas utile)
+- passer les interfaces en mode promiscus ? (a priori pas utile, mais ne mange pas de pain)
 
 - desactiver le filtrage iptables pour le bridge : 
 https://superuser.com/questions/1211852/why-linux-bridge-doesnt-work
 echo 0 > /proc/sys/net/bridge/bridge-nf-call-iptables
 
-# à cette étape le trafic ipv4 passe mais tant que l'arp est memorisée chez les clients
-# Le trafic broadcast ne passe pas donc pb d'ARP
+Fonctione !
 
-# Le boracast ne semble passer que dans un sens eth1 -> eth0
+# Le trafic passe, y compris avec des vlans. Les tags des vlans sont visibles dans wireshark.
 
-
-- autre ?
-sysctl -w net.ipv4.conf.bridge0.bc_forwarding=1
-
-
-
+# Les machines dont le traffic est visible sans vlan sont pingables depuis la machine MITM
 
 #TODO 
 # Donner a sarasvati une @ip dans le vlan 2 et pinguer aussi !
+
+
+
+
+
+
+
+
