@@ -140,6 +140,7 @@ https://developpaper.com/linux-bridge-vlan-filtering/
 
 # On commence par peter d'eventeulles anciennes conf nmcli
 nmcli conn show
+-> identifier les interface correspondant a des bridge crees avec network manager
 nmcli con delete 7a399367-3fc6-46da-bc9b-a3ac634f9115
 nmcli con del 37dd44bf-794a-42fe-83c1-44a5352f9e41
 nmcli con del 66607e25-59ce-4a4a-8841-2ad1e78db98e
@@ -149,10 +150,20 @@ sudo su
 echo 0 > /proc/sys/net/bridge/bridge-nf-call-iptables
 exit
 
-# On cree un bridge
-sudo ip link add Bridge up type bridge vlan_filtering 1
+# On cree un bridge "vlan-aware"
+#sudo ip link add Bridge up type bridge vlan_filtering 1
+#sudo ip link set eth0 master Bridge
+#sudo ip link set eth1 master Bridge
+
+# Pour info comment on supprime un bridge
+sudo ip link del link Bridge
+
+# On en re-cree un avec les vlans
+sudo ip link add Bridge up type bridge vlan_filtering 0
 sudo ip link set eth0 master Bridge
 sudo ip link set eth1 master Bridge
+-> faire un dump du trafic et noter les vlans
+
 sudo bridge vlan add vid 2 dev Bridge self
 sudo bridge vlan add vid 2 dev eth1 master
 sudo bridge vlan add vid 2 dev eth0 master
@@ -175,6 +186,7 @@ ping 192.168.253.11
 -> Le ping passe a travers le bridge
 -> On peut sniffer avec wireshark
 -> On peut pinger les machines presentes dans tel ou tel réseau 
+-> quand on s'installe dans le vlan2 et qu'on ping des communications sur un autre vlan non-identifié continue a passer
 Tout fonctionne !
 
 
