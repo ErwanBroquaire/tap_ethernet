@@ -128,9 +128,42 @@ sudo ip link set dev bridge0 type bridge vlan_filtering 0
 
 
 
+# Autre commande : bridge
 
+https://developpaper.com/linux-bridge-vlan-filtering/
 
+# On commence par peter d'eventeulles anciennes conf nmcli
+nmcli conn show
+nmcli con delete 7a399367-3fc6-46da-bc9b-a3ac634f9115
+nmcli con del 37dd44bf-794a-42fe-83c1-44a5352f9e41
+nmcli con del 66607e25-59ce-4a4a-8841-2ad1e78db98e
+# On cree un bridge
+sudo ip link add Bridge up type bridge vlan_filtering 1
+sudo ip link set eth0 master Bridge
+sudo ip link set eth1 master Bridge
+sudo bridge vlan add vid 2 dev Bridge self
+sudo bridge vlan add vid 2 dev eth1 master
+sudo bridge vlan add vid 2 dev eth0 master
+sudo ip link add link Bridge name Vlan2  up type vlan id 2
+sudo ip addr add 192.168.253.16/24 dev Vlan2
+sudo bridge vlan show
+└─$ sudo bridge vlan show
+port              vlan-id  
+eth0              1 PVID Egress Untagged
+                  2
+docker0           1 PVID Egress Untagged
+eth1              1 PVID Egress Untagged
+                  2
+Bridge            1 PVID Egress Untagged
+                  2
 
+ping 192.168.253.10
+ping 192.168.253.11
+
+-> Le ping passe a travers le bridge
+-> On peut sniffer avec wireshark
+-> On peut pinger les machines presentes dans tel ou tel réseau 
+Tout fonctionne !
 
 
 
