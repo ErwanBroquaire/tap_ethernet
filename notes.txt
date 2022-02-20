@@ -19,6 +19,10 @@ vlan 2 :
 - tag sur le port 12
 - pas d'interface dans le vlan 2
 
+vlan 3 :
+- untag sur les ports 3
+- tag sur le port 12
+- pas d'interface dans le vlan 2
 
 
 # Conf du swtich4200
@@ -32,10 +36,16 @@ system-view
 interface Ethernet 1/0/12
 port link-type trunk
 port trunk permit vlan 2
+port trunk permit vlan 3
 quit
 
 vlan 2
 port Ethernet 1/0/2
+port Ethernet 1/0/11
+quit
+
+vlan 3
+port Ethernet 1/0/3
 port Ethernet 1/0/11
 quit
 
