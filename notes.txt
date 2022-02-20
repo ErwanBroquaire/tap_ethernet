@@ -80,6 +80,54 @@ Fonctione !
 
 https://medium.com/@kbidarkar/configuring-bridges-and-vlans-using-nmcli-8cb79f45d3a6
 
+Ajouter une interface avec un vlan (marche pas pour le moment)
+nmcli con add type vlan con-name bridge0.vlan2 dev eth0 id 2 master bridge0 connection.autoconnect yes
+-> permet de pinguer vers 192.168.253.10 mais pas .11 et tue le forward de paquets via le bridge !
+nmcli con add type vlan con-name bridge0.vlan2 dev eth1 id 2 master bridge0 connection.autoconnect yes
+-> marche pas
+
+Supprimer une internface
+nmcli con delete d28b9f93-7cbb-48a3-9829-2c3603a1c9a5
+
+
+
+
+
+# Autre commande (deprecated) : vconfig
+sudo vconfig add eth0 2
+sudo vconfig rem eth0.2
+
+
+
+
+# Autre commande : ip
+
+
+sudo ip link add link bridge0 name br0.2 type vlan id 2
+
+ip link set dev br0.2
+sudo ip link delete br0.2
+
+sudo ip link set dev bridge0 type bridge vlan_filtering 1
+sudo bridge vlan del dev eth1 vid 1
+sudo bridge vlan del dev eth0 vid 1
+
+sudo bridge vlan add dev eth1 vid 2 pvid untagged
+sudo bridge vlan add dev eth0 vid 2 pvid untagged
+
+sudo ip link set bridge0 up
+(!) ne bridge plus ne permet pas de pinger
+
+sudo ip link set dev bridge0 type bridge vlan_filtering 0
+
+
+
+
+
+
+
+
+
 
 
 
