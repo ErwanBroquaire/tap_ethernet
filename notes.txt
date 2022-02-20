@@ -47,11 +47,21 @@ quit
 - 192.168.253.11 sur le port 11 du vieux 3com (vlan 2)
 - 192.168.100.33 sur le vieux 3com (vlan 1) quand 'linterface usb-ethernet est branchée
 
+# conf du pc en position de MITM
+- 192.168.253.12 sur le bridge0 (permet de pinguer)
+- [pas d'ip] sur eth0
+- [pas d'ip] sur eth1
 
 
 # Mettre sarasvati en man ip the middle et monitorer le trafic sans l'interompre
 
 - monter un bridge avec network manager et nmcli
+
+nmcli con show | grep  bridge0
+nmcli con up 37dd44bf-794a-42fe-83c1-44a5352f9e41
+nmcli con up 66607e25-59ce-4a4a-8841-2ad1e78db98e
+nmcli con up 7a399367-3fc6-46da-bc9b-a3ac634f9115
+
 
 - passer les interfaces en mode promiscus ? (a priori pas utile, mais ne mange pas de pain)
 
