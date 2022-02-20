@@ -99,6 +99,11 @@ sudo vconfig rem eth0.2
 
 
 
+# DUMPER le trafic
+
+sudo timeout -s 9 5 tcpdump -i bridge0 -w test.pcapng
+
+
 
 # Autre commande : ip
 
@@ -112,8 +117,8 @@ sudo ip link set dev bridge0 type bridge vlan_filtering 1
 sudo bridge vlan del dev eth1 vid 1
 sudo bridge vlan del dev eth0 vid 1
 
-sudo bridge vlan add dev eth1 vid 2 pvid untagged
-sudo bridge vlan add dev eth0 vid 2 pvid untagged
+sudo bridge vlan add dev eth1 vid 2 pvid trunk
+sudo bridge vlan add dev eth0 vid 2 pvid trunk
 
 sudo ip link set bridge0 up
 (!) ne bridge plus ne permet pas de pinger
