@@ -24,6 +24,11 @@ vlan 3 :
 - tag sur le port 12
 - pas d'interface dans le vlan 2
 
+vlan 4 :
+- untag sur les ports 4
+- untag sur le port 12 !!!
+- pas d'interface dans le vlan 2
+
 
 # Conf du swtich4200
 
@@ -46,8 +51,8 @@ quit
 
 vlan 3
 port Ethernet 1/0/3
-port Ethernet 1/0/11
 quit
+
 
 
 # conf du raspberry PI blanc 	
@@ -184,9 +189,9 @@ ping 192.168.253.10
 ping 192.168.253.11
 
 -> Le ping passe a travers le bridge
--> On peut sniffer avec wireshark
--> On peut pinger les machines presentes dans tel ou tel réseau 
--> quand on s'installe dans le vlan2 et qu'on ping des communications sur un autre vlan non-identifié continue a passer
+-> On peut sniffer avec wireshark (testé avec du trafic tagué et non tagué)
+-> On peut pinger les machines presentes dans un vlan
+-> quand on s'installe dans le vlan2 et qu'on ping des communications sur le vlan 3 non-identifié continue a passer
 Tout fonctionne !
 
 
