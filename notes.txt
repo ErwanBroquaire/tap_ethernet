@@ -99,11 +99,6 @@ sudo vconfig rem eth0.2
 
 
 
-# DUMPER le trafic
-
-sudo timeout -s 9 5 tcpdump -i bridge0 -w test.pcapng
-
-
 
 # Autre commande : ip
 
@@ -128,7 +123,8 @@ sudo ip link set dev bridge0 type bridge vlan_filtering 0
 
 
 
-# Autre commande : bridge
+# Autre commande : bridge (fonctionne)
+######################################
 
 https://developpaper.com/linux-bridge-vlan-filtering/
 
@@ -137,6 +133,12 @@ nmcli conn show
 nmcli con delete 7a399367-3fc6-46da-bc9b-a3ac634f9115
 nmcli con del 37dd44bf-794a-42fe-83c1-44a5352f9e41
 nmcli con del 66607e25-59ce-4a4a-8841-2ad1e78db98e
+
+# si besoin on re-ecarte iptables
+sudo su
+echo 0 > /proc/sys/net/bridge/bridge-nf-call-iptables
+exit
+
 # On cree un bridge
 sudo ip link add Bridge up type bridge vlan_filtering 1
 sudo ip link set eth0 master Bridge
@@ -164,6 +166,12 @@ ping 192.168.253.11
 -> On peut sniffer avec wireshark
 -> On peut pinger les machines presentes dans tel ou tel réseau 
 Tout fonctionne !
+
+
+# DUMPER le trafic
+##################
+
+sudo timeout -s 9 5 tcpdump -i Bridge -w test.pcapng
 
 
 
